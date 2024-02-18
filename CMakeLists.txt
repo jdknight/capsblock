@@ -12,4 +12,4 @@ include(${BASE_DIR}/sources.cmake)
 include_directories(${INC_DIR})
 
 add_executable(capsblock WIN32 ${CAPSBLOCK_SRCS})
-install (TARGETS capsblock RUNTIME DESTINATION bin)
+install(TARGETS capsblock RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
