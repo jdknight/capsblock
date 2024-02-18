@@ -24,7 +24,7 @@ jobs:
       - name: Create archive
         run: |
           cd output/staging
-          zip -r capsblock-portable.zip .
+          Compress-Archive -Path * -Destination capsblock-portable.zip
 
       - name: Generate hashes
         run: |
