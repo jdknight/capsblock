@@ -1,5 +1,7 @@
 # Caps Block
 
+[![Build Status](https://github.com/jdknight/capsblock/actions/workflows/build.yml/badge.svg)](https://github.com/jdknight/capsblock/actions/workflows/build.yml)
+
 ## Overview
 
 Provides the ability in Windows to help force the Caps Lock key in a toggled
