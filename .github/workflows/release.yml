@@ -1,0 +1,58 @@
+name: Release
+permissions: read-all
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Build release
+        run: |
+          mkdir output
+          cd output
+          cmake ..
+          cmake --build . --config Release
+
+      - name: Generate hashes
+        run: |
+          cd output/Release
+          sha256sum -b capsblock.exe >SHA256SUMS
+          cat SHA256SUMS
+
+      - name: Store release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: output/Release/
+
+  draft-release:
+    name: Prepare GitHub Draft Release
+    runs-on: ubuntu-latest
+    environment: release
+    needs:
+      - build
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+
+      - name: Acquire release artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: artifacts/
+
+      - name: Prepare GitHub Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run:
+          gh release create --draft --verify-tag
+            '${{ github.ref_name }}' artifacts/**
