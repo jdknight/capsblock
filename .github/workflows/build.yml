@@ -29,5 +29,5 @@ jobs:
       - run: |
           mkdir output
           cd output
-          cmake ..
+          cmake .. -A x64
           cmake --build .
