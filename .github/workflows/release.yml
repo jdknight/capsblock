@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build Release
     runs-on: windows-latest
     steps:
       - name: Checkout sources
@@ -17,20 +18,27 @@ jobs:
         run: |
           mkdir output
           cd output
-          cmake ..
-          cmake --build . --config Release
+          cmake .. -A x64 -DCMAKE_INSTALL_PREFIX=staging
+          cmake --build . --config Release --target install
+
+      - name: Create archive
+        run: |
+          cd output/staging
+          zip -r capsblock-portable.zip .
 
       - name: Generate hashes
         run: |
-          cd output/Release
-          sha256sum -b capsblock.exe >SHA256SUMS
+          cd output/staging
+          sha256sum -b capsblock-portable.zip >SHA256SUMS
           cat SHA256SUMS
 
       - name: Store release artifacts
         uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
-          path: output/Release/
+          path: |
+            output/staging/SHA256SUMS
+            output/staging/capsblock-portable.zip
 
   draft-release:
     name: Prepare GitHub Draft Release
