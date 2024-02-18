@@ -55,10 +55,10 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     // create a hook to listen for keyboard events
     HHOOK hook = SetWindowsHookEx(
         WH_KEYBOARD_LL, LowLevelKeyboardProc, GetModuleHandle(NULL), 0);
-	if (!hook) {
+    if (!hook) {
         fprintf(stderr, "unable to create keyboard hook\n");
-		return 1;
-	}
+        return 1;
+    }
 
     // consume all messages
     MSG msg;
