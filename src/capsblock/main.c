@@ -17,7 +17,7 @@ volatile bool gShutdown = false;
 LRESULT CALLBACK LowLevelKeyboardProc(int code, WPARAM msg, LPARAM ctx)
 {
     // listen for key-up events of the caps-lock key
-    if (!code >= 0 && msg == WM_KEYUP) {
+    if (code == HC_ACTION && msg == WM_KEYUP) {
         KBDLLHOOKSTRUCT* kbd = (KBDLLHOOKSTRUCT*)ctx;
         if (kbd->vkCode == VK_CAPITAL) {
             // check if we have caps-lock enabled in our current state
