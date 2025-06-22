@@ -91,7 +91,7 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
         return 2;
     }
 
-    // build a thread reposible for toggling the cap-lock key off
+    // build a thread responsible for toggling the cap-lock key off
     HANDLE tkt = CreateThread(NULL, 0, ToggleKeyThread, NULL, 0, NULL);
     if (!tkt) {
         fprintf(stderr, "unable to create toggle-key thread\n");
